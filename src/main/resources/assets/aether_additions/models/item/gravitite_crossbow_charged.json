@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "textures": {
+    "layer0": "aether_additions:item/gravitite_crossbow_charged"
+  }
+}
