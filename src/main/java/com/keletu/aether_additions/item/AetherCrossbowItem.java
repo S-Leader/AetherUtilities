@@ -1,6 +1,7 @@
 package com.keletu.aether_additions.item;
 
 import com.aetherteam.aether.AetherTags;
+import com.aetherteam.aether.item.EquipmentUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -206,9 +207,11 @@ public class AetherCrossbowItem extends CrossbowItem {
         }
         if (projectile instanceof AbstractArrow arrow) {
 
-            if (this.type == CrossbowType.ZANITE && weaponStack.isDamageableItem() && weaponStack.getMaxDamage() > 0) {
-                double bonusDamage = (weaponStack.getDamageValue() * 7.0D) / weaponStack.getMaxDamage();
-                arrow.setBaseDamage(arrow.getBaseDamage() + bonusDamage);
+            if (this.type == CrossbowType.ZANITE) {
+                double baseDamage = arrow.getBaseDamage();
+                double boostedDamage = EquipmentUtil.calculateZaniteBuff(weaponStack, baseDamage);
+
+                arrow.setBaseDamage(boostedDamage);
             }
 
             if (this.type == CrossbowType.GRAVITITE) {
