@@ -1,8 +1,11 @@
 package com.keletu.aether_additions;
 
+import com.keletu.aether_additions.data.AACreativeTabs;
+import com.keletu.aether_additions.data.AADataGen;
 import com.keletu.aether_additions.item.AetherCrossbowItems;
 import com.mojang.logging.LogUtils;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -17,6 +20,8 @@ public class AetherAdditions {
     public AetherAdditions(IEventBus modEventBus, ModContainer container) {
         AetherCrossbowItems.ITEMS.register(modEventBus);
 
+        modEventBus.addListener(EventPriority.LOW, AACreativeTabs::buildCreativeModeTabs);
+        modEventBus.addListener(AADataGen::gatherData);
         if (FMLEnvironment.dist == Dist.CLIENT) {
         }
     }

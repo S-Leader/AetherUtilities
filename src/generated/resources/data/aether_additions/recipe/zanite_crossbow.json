@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "aether_crossbows",
+  "key": {
+    "M": {
+      "item": "aether:zanite_gemstone"
+    },
+    "P": {
+      "tag": "c:strings"
+    },
+    "S": {
+      "item": "aether:skyroot_stick"
+    },
+    "T": {
+      "item": "minecraft:tripwire_hook"
+    }
+  },
+  "pattern": [
+    "SMS",
+    "PTP",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "aether_additions:zanite_crossbow"
+  }
+}

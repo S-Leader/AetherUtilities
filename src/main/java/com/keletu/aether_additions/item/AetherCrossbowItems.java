@@ -1,5 +1,6 @@
 package com.keletu.aether_additions.item;
 
+import com.aetherteam.aether.item.AetherItems;
 import com.keletu.aether_additions.AetherAdditions;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -25,7 +26,7 @@ public final class AetherCrossbowItems {
             () -> new AetherCrossbowItem(new Item.Properties(), AetherCrossbowItem.CrossbowType.GRAVITITE));
 
     public static final DeferredItem<AetherCrossbowItem> VAMPIRE_CROSSBOW = ITEMS.register("vampire_crossbow",
-            () -> new AetherCrossbowItem(new Item.Properties(), AetherCrossbowItem.CrossbowType.VAMPIRE));
+            () -> new AetherCrossbowItem(new Item.Properties().rarity(AetherItems.AETHER_LOOT), AetherCrossbowItem.CrossbowType.VAMPIRE));
 
     private AetherCrossbowItems() {
     }

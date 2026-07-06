@@ -32,6 +32,7 @@ repositories {
     maven { // TOP
         url "https://cursemaven.com"
     }
+    maven { url "https://packages.aether-mod.net/Nitrogen" }
 }
 
 base {
@@ -108,7 +109,9 @@ dependencies {
     // And its provides the option to then use net.minecraft as the group, and one of; client, server or joined as the module name, plus the game version as version.
     // For all intends and purposes: You can treat this dependency as if it is a normal library you would use.
     implementation "net.neoforged:neoforge:${neo_version}"
-    implementation "team-twilight:twilightforest:4.8.3345:universal"
+    implementation "curse.maven:aether-255308:7043502"
+    implementation "com.aetherteam.nitrogen:nitrogen_internals:1.21.1-1.1.25-neoforge"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -126,7 +129,8 @@ dependencies {
 
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")
-
+    implementation "curse.maven:accessories-938917:7583320"
+    implementation "curse.maven:owo-lib-532610:6785734"
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_enchanted_gravitite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "aether:enchanted_gravitite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "aether_additions:gravitite_crossbow"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tripwire_hook": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:tripwire_hook"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_enchanted_gravitite",
+      "has_tripwire_hook"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "aether_additions:gravitite_crossbow"
+    ]
+  }
+}

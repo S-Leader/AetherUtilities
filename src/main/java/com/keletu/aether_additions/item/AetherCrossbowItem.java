@@ -1,5 +1,6 @@
 package com.keletu.aether_additions.item;
 
+import com.aetherteam.aether.AetherTags;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -15,17 +16,9 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 1.21.1 NeoForge port of the old Aether crossbows.
- * <p>
- * Important behavior:
- * - This still extends vanilla CrossbowItem.
- * - It does NOT register or use a custom bolt/projectile entity.
- * - Ammo lookup/loading/firing is still vanilla CrossbowItem behavior.
- * - Special shots are applied by editing the vanilla CHARGED_PROJECTILES component after vanilla loading.
- * - No forced sneaking/crouching is required for charging.
- */
 public class AetherCrossbowItem extends CrossbowItem {
+    public static final String AETHER_CROSSBOW_ARROW_TAG = "aether_adds:aether_crossbow_arrow";
+    public static final String VAMPIRE_CROSSBOW_ARROW_TAG = "aether_adds:vampire_crossbow_arrow";
     private final CrossbowType type;
     private final int durationInTicks;
     private final float knockBackValue;
@@ -84,68 +77,135 @@ public class AetherCrossbowItem extends CrossbowItem {
     }
 
     @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return switch (this.type) {
+            case SKYROOT ->
+                    repairCandidate.getTags().anyMatch((tagKey) -> tagKey.equals(AetherTags.Items.SKYROOT_REPAIRING));
+            case HOLYSTONE ->
+                    repairCandidate.getTags().anyMatch((tagKey) -> tagKey.equals(AetherTags.Items.HOLY_REPAIRING));
+            case ZANITE ->
+                    repairCandidate.getTags().anyMatch((tagKey) -> tagKey.equals(AetherTags.Items.ZANITE_REPAIRING));
+            case GRAVITITE ->
+                    repairCandidate.getTags().anyMatch((tagKey) -> tagKey.equals(AetherTags.Items.GRAVITITE_REPAIRING));
+            default -> false;
+        };
+    }
+
+    @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int timeLeft) {
         int convertedTimeLeft = this.convertRemainingUseDurationForVanilla(stack, living, timeLeft);
         super.releaseUsing(stack, level, living, convertedTimeLeft);
-
-        // After vanilla CrossbowItem has found and loaded ammo, expand the charged projectile list for special crossbows.
-        // This keeps vanilla ammo compatibility instead of hardcoding minecraft:arrow or a custom bolt item.
-        this.expandChargedProjectiles(stack);
     }
 
-    private void expandChargedProjectiles(ItemStack weaponStack) {
-        int projectileCount = this.type.extraProjectileCount;
-        if (projectileCount <= 1) {
-            return;
+
+    @Override
+    public void performShooting(Level level, LivingEntity shooter, InteractionHand hand, ItemStack weaponStack, float velocity, float inaccuracy, @Nullable LivingEntity target) {
+        ShotContext context = this.expandChargedProjectilesForShooting(weaponStack);
+
+        SHOT_CONTEXT.set(context);
+        try {
+            super.performShooting(level, shooter, hand, weaponStack, velocity, inaccuracy, target);
+        } finally {
+            SHOT_CONTEXT.remove();
         }
+    }
+
+    private ShotContext expandChargedProjectilesForShooting(ItemStack weaponStack) {
+        int aetherShotCount = this.type.extraProjectileCount;
 
         ChargedProjectiles chargedProjectiles = weaponStack.get(DataComponents.CHARGED_PROJECTILES);
+
         if (chargedProjectiles == null || chargedProjectiles.isEmpty()) {
-            return;
+            return new ShotContext(aetherShotCount, 0);
         }
 
         List<ItemStack> originalProjectiles = chargedProjectiles.getItems();
         if (originalProjectiles.isEmpty()) {
-            return;
+            return new ShotContext(aetherShotCount, 0);
         }
 
-        // If another vanilla mechanic/mod already loaded multiple projectiles, do not multiply it again.
-        if (originalProjectiles.size() != 1) {
-            return;
+        int vanillaShotCount = originalProjectiles.size();
+
+        if (aetherShotCount <= 1) {
+            return new ShotContext(aetherShotCount, vanillaShotCount);
         }
 
-        ItemStack originalProjectile = originalProjectiles.get(0);
-        List<ItemStack> expandedProjectiles = new ArrayList<>(projectileCount);
-        for (int i = 0; i < projectileCount; i++) {
-            ItemStack copy = originalProjectile.copy();
-            copy.setCount(1);
-            expandedProjectiles.add(copy);
+        List<ItemStack> expandedProjectiles = new ArrayList<>(vanillaShotCount * aetherShotCount);
+
+        // 关键：复制“原版已装填弹丸组”
+        // 如果没有散射，originalProjectiles 通常是 1 个。
+        // 如果有散射，originalProjectiles 通常是 3 个。
+        for (int aetherIndex = 0; aetherIndex < aetherShotCount; aetherIndex++) {
+            for (ItemStack projectileStack : originalProjectiles) {
+                ItemStack copy = projectileStack.copy();
+                copy.setCount(1);
+                expandedProjectiles.add(copy);
+            }
         }
 
         weaponStack.set(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.of(expandedProjectiles));
-    }
 
-    @Override
-    public void performShooting(Level level, LivingEntity shooter, InteractionHand hand, ItemStack weaponStack, float velocity, float inaccuracy, @Nullable LivingEntity target) {
-        // Safety: if another path charged the weapon without releaseUsing being called, still apply the special list before firing.
-        this.expandChargedProjectiles(weaponStack);
-        super.performShooting(level, shooter, hand, weaponStack, velocity, inaccuracy, target);
+        return new ShotContext(aetherShotCount, vanillaShotCount);
     }
 
     @Override
     protected void shootProjectile(LivingEntity shooter, Projectile projectile, int projectileIndex, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
-        super.shootProjectile(shooter, projectile, projectileIndex, velocity, inaccuracy, angle, target);
+        ShotContext context = SHOT_CONTEXT.get();
 
-        if (projectileIndex > 0 && projectile instanceof AbstractArrow arrow) {
-            arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
+        float finalAngle = angle;
+
+        if (context != null && context.vanillaShotCount > 0) {
+            int vanillaIndex = projectileIndex % context.vanillaShotCount;
+            int aetherIndex = projectileIndex / context.vanillaShotCount;
+
+            float vanillaScatterAngle = this.getVanillaScatterAngle(vanillaIndex, context.vanillaShotCount);
+            float aetherExtraAngle = this.getAetherExtraAngle(aetherIndex);
+
+            finalAngle = vanillaScatterAngle + aetherExtraAngle;
         }
+
+        super.shootProjectile(shooter, projectile, projectileIndex, velocity, inaccuracy, finalAngle, target);
+
+        if (projectile instanceof AbstractArrow arrow) {
+            if (context != null && context.isAetherExtraProjectile(projectileIndex)) {
+                arrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+            }
+        }
+    }
+
+    private float getVanillaScatterAngle(int vanillaIndex, int vanillaShotCount) {
+        if (vanillaShotCount == 3) {
+            return switch (vanillaIndex) {
+                case 1 -> -10.0F;
+                case 2 -> 10.0F;
+                default -> 0.0F;
+            };
+        }
+
+        return 0.0F;
+    }
+
+    private float getAetherExtraAngle(int aetherIndex) {
+        if (this.type == CrossbowType.HOLYSTONE) {
+            return switch (aetherIndex) {
+                case 1 -> 10.0F;
+                case 2 -> -10.0F;
+                default -> 0.0F;
+            };
+        }
+
+        return 0.0F;
     }
 
     @Override
     protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean isCrit) {
         Projectile projectile = super.createProjectile(level, shooter, weaponStack, projectileStack, isCrit);
-
+        projectile.getPersistentData().putBoolean(AETHER_CROSSBOW_ARROW_TAG, true);
+        if (this.type == CrossbowType.VAMPIRE) {
+            projectile.getPersistentData().putBoolean(VAMPIRE_CROSSBOW_ARROW_TAG, true);
+        }
         if (projectile instanceof AbstractArrow arrow) {
+
             if (this.type == CrossbowType.ZANITE && weaponStack.isDamageableItem() && weaponStack.getMaxDamage() > 0) {
                 double bonusDamage = (weaponStack.getDamageValue() * 7.0D) / weaponStack.getMaxDamage();
                 arrow.setBaseDamage(arrow.getBaseDamage() + bonusDamage);
@@ -188,6 +248,18 @@ public class AetherCrossbowItem extends CrossbowItem {
 
         public int extraProjectileCount() {
             return this.extraProjectileCount;
+        }
+    }
+
+    private static final ThreadLocal<ShotContext> SHOT_CONTEXT = new ThreadLocal<>();
+
+    private record ShotContext(int aetherShotCount, int vanillaShotCount) {
+        boolean hasAetherExtraShots() {
+            return this.aetherShotCount > 1;
+        }
+
+        boolean isAetherExtraProjectile(int projectileIndex) {
+            return projectileIndex >= this.vanillaShotCount;
         }
     }
 }

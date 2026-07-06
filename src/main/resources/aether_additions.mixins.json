@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.keletu.aether_additions.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbilityHooksWeaponHooksMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
