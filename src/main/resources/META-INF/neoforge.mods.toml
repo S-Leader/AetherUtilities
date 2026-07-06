@@ -87,10 +87,11 @@ versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.twilightflawless]]
-modId = "twilightforest"
+[[dependencies.${ mod_id }]]
+modId = "aether"
 type = "required"
-versionRange = "[4.8.3345,)"
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+versionRange = "[1.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
