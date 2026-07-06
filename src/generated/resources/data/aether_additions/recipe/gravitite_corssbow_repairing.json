@@ -1,0 +1,8 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_corssbow_repair",
+  "ingredient": {
+    "item": "aether_additions:gravitite_crossbow"
+  },
+  "repairTime": 1500
+}

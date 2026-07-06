@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gravitite_crossbow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "aether_additions:gravitite_crossbow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "aether_additions:gravitite_corssbow_repairing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gravitite_crossbow"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "aether_additions:gravitite_corssbow_repairing"
+    ]
+  }
+}

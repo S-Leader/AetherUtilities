@@ -1,0 +1,8 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_corssbow_repair",
+  "ingredient": {
+    "item": "aether_additions:holystone_crossbow"
+  },
+  "repairTime": 500
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_holystone_crossbow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "aether_additions:holystone_crossbow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "aether_additions:holystone_corssbow_repairing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_holystone_crossbow"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "aether_additions:holystone_corssbow_repairing"
+    ]
+  }
+}
