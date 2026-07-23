@@ -1,0 +1,6 @@
+{
+  "parent": "aether_additions:block/bean_vine_connection",
+  "textures": {
+    "stem": "aether_additions:block/bean_vine_none"
+  }
+}

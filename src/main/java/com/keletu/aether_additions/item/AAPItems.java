@@ -6,11 +6,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-/**
- * Registration example.
- * Replace ExampleMod.MODID and package names with your own mod id/package.
- */
-public final class AetherCrossbowItems {
+public final class AAPItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AetherAdditions.MODID);
 
     public static final DeferredItem<AetherCrossbowItem> SKYROOT_CROSSBOW = ITEMS.register("skyroot_crossbow",
@@ -28,6 +24,9 @@ public final class AetherCrossbowItems {
     public static final DeferredItem<AetherCrossbowItem> VAMPIRE_CROSSBOW = ITEMS.register("vampire_crossbow",
             () -> new AetherCrossbowItem(new Item.Properties().rarity(AetherItems.AETHER_LOOT), AetherCrossbowItem.CrossbowType.VAMPIRE));
 
-    private AetherCrossbowItems() {
+    public static final DeferredItem<MagicBeanItem> MAGIC_BEAN = ITEMS.register("magic_bean",
+            () -> new MagicBeanItem(new Item.Properties().stacksTo(16)));
+
+    private AAPItems() {
     }
 }

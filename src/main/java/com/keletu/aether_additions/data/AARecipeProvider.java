@@ -4,7 +4,7 @@ import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.data.providers.AetherRecipeProvider;
 import com.aetherteam.aether.item.AetherItems;
 import com.keletu.aether_additions.AetherAdditions;
-import com.keletu.aether_additions.item.AetherCrossbowItems;
+import com.keletu.aether_additions.item.AAPItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -25,15 +25,15 @@ public class AARecipeProvider extends AetherRecipeProvider {
 
     @Override
     protected void buildRecipes(RecipeOutput output) {
-        crossbow(output, AetherCrossbowItems.SKYROOT_CROSSBOW.get(), AetherBlocks.SKYROOT_PLANKS.get(), "skyroot_crossbow");
-        crossbow(output, AetherCrossbowItems.HOLYSTONE_CROSSBOW.get(), AetherBlocks.HOLYSTONE.get(), "holystone_crossbow");
-        crossbow(output, AetherCrossbowItems.ZANITE_CROSSBOW.get(), AetherItems.ZANITE_GEMSTONE.get(), "zanite_crossbow");
-        crossbow(output, AetherCrossbowItems.GRAVITITE_CROSSBOW.get(), AetherBlocks.ENCHANTED_GRAVITITE.get(), "gravitite_crossbow");
+        crossbow(output, AAPItems.SKYROOT_CROSSBOW.get(), AetherBlocks.SKYROOT_PLANKS.get(), "skyroot_crossbow");
+        crossbow(output, AAPItems.HOLYSTONE_CROSSBOW.get(), AetherBlocks.HOLYSTONE.get(), "holystone_crossbow");
+        crossbow(output, AAPItems.ZANITE_CROSSBOW.get(), AetherItems.ZANITE_GEMSTONE.get(), "zanite_crossbow");
+        crossbow(output, AAPItems.GRAVITITE_CROSSBOW.get(), AetherBlocks.ENCHANTED_GRAVITITE.get(), "gravitite_crossbow");
 
-        this.repairingRecipe(RecipeCategory.COMBAT, AetherCrossbowItems.SKYROOT_CROSSBOW.get(), 250).group("altar_corssbow_repair").save(output, this.name("skyroot_corssbow_repairing"));
-        this.repairingRecipe(RecipeCategory.COMBAT, AetherCrossbowItems.HOLYSTONE_CROSSBOW.get(), 500).group("altar_corssbow_repair").save(output, this.name("holystone_corssbow_repairing"));
-        this.repairingRecipe(RecipeCategory.COMBAT, AetherCrossbowItems.ZANITE_CROSSBOW.get(), 750).group("altar_corssbow_repair").save(output, this.name("zanite_corssbow_repairing"));
-        this.repairingRecipe(RecipeCategory.COMBAT, AetherCrossbowItems.GRAVITITE_CROSSBOW.get(), 1500).group("altar_corssbow_repair").save(output, this.name("gravitite_corssbow_repairing"));
+        this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.SKYROOT_CROSSBOW.get(), 250).group("altar_corssbow_repair").save(output, this.name("skyroot_corssbow_repairing"));
+        this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.HOLYSTONE_CROSSBOW.get(), 500).group("altar_corssbow_repair").save(output, this.name("holystone_corssbow_repairing"));
+        this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.ZANITE_CROSSBOW.get(), 750).group("altar_corssbow_repair").save(output, this.name("zanite_corssbow_repairing"));
+        this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.GRAVITITE_CROSSBOW.get(), 1500).group("altar_corssbow_repair").save(output, this.name("gravitite_corssbow_repairing"));
 
     }
 

@@ -133,9 +133,6 @@ public class AetherCrossbowItem extends CrossbowItem {
 
         List<ItemStack> expandedProjectiles = new ArrayList<>(vanillaShotCount * aetherShotCount);
 
-        // 关键：复制“原版已装填弹丸组”
-        // 如果没有散射，originalProjectiles 通常是 1 个。
-        // 如果有散射，originalProjectiles 通常是 3 个。
         for (int aetherIndex = 0; aetherIndex < aetherShotCount; aetherIndex++) {
             for (ItemStack projectileStack : originalProjectiles) {
                 ItemStack copy = projectileStack.copy();

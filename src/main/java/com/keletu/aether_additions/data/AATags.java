@@ -2,7 +2,7 @@ package com.keletu.aether_additions.data;
 
 import com.aetherteam.aether.AetherTags;
 import com.keletu.aether_additions.AetherAdditions;
-import com.keletu.aether_additions.item.AetherCrossbowItems;
+import com.keletu.aether_additions.item.AAPItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -21,15 +21,15 @@ public class AATags extends ItemTagsProvider {
 
     @Override
     public void addTags(HolderLookup.Provider provider) {
-        this.tag(ItemTags.CROSSBOW_ENCHANTABLE).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
-        this.tag(Tags.Items.RANGED_WEAPON_TOOLS).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
-        this.tag(Tags.Items.TOOLS).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
+        this.tag(ItemTags.CROSSBOW_ENCHANTABLE).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
+        this.tag(Tags.Items.RANGED_WEAPON_TOOLS).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
+        this.tag(Tags.Items.TOOLS).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
 
-        this.tag(ItemTags.DURABILITY_ENCHANTABLE).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
-        this.tag(ItemTags.VANISHING_ENCHANTABLE).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
-        this.tag(Tags.Items.ENCHANTABLES).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
+        this.tag(ItemTags.DURABILITY_ENCHANTABLE).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
+        this.tag(ItemTags.VANISHING_ENCHANTABLE).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
+        this.tag(Tags.Items.ENCHANTABLES).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
 
-        this.tag(AetherTags.Items.TREATED_AS_AETHER_ITEM).add(AetherCrossbowItems.SKYROOT_CROSSBOW.get()).add(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get()).add(AetherCrossbowItems.ZANITE_CROSSBOW.get()).add(AetherCrossbowItems.GRAVITITE_CROSSBOW.get()).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
-        this.tag(AetherTags.Items.GOLD_DUNGEON_LOOT).add(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
+        this.tag(AetherTags.Items.TREATED_AS_AETHER_ITEM).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get()).add(AAPItems.MAGIC_BEAN.get());
+        this.tag(AetherTags.Items.GOLD_DUNGEON_LOOT).add(AAPItems.VAMPIRE_CROSSBOW.get());
     }
 }

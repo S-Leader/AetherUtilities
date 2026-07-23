@@ -1,5 +1,6 @@
-package com.keletu.aether_additions;
+package com.keletu.aether_additions.event;
 
+import com.keletu.aether_additions.AetherAdditions;
 import com.keletu.aether_additions.item.AetherCrossbowItem;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -28,10 +29,6 @@ public final class AetherCrossbowCombatEvents {
             return;
         }
 
-        if (!arrow.getPersistentData().getBoolean(AetherCrossbowItem.VAMPIRE_CROSSBOW_ARROW_TAG)) {
-            return;
-        }
-
         HitResult result = event.getRayTraceResult();
         if (!(result instanceof EntityHitResult entityHitResult)) {
             return;
@@ -54,9 +51,16 @@ public final class AetherCrossbowCombatEvents {
             return;
         }
 
-        shooter.heal(1.0F);
 
-        spawnVampireParticles(serverLevel, target, shooter);
+        if (arrow.getPersistentData().getBoolean(AetherCrossbowItem.AETHER_CROSSBOW_ARROW_TAG)) {
+            hitEntity.invulnerableTime = 0;
+        }
+
+        if (arrow.getPersistentData().getBoolean(AetherCrossbowItem.VAMPIRE_CROSSBOW_ARROW_TAG)) {
+            shooter.heal(1.0F);
+
+            spawnVampireParticles(serverLevel, target, shooter);
+        }
     }
 
     private static void spawnVampireParticles(ServerLevel level, LivingEntity target, LivingEntity shooter) {

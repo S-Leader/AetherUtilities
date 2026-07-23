@@ -3,7 +3,7 @@ package com.keletu.aether_additions.data;
 import com.aetherteam.aether.loot.AetherLoot;
 import com.aetherteam.nitrogen.loot.modifiers.AddDungeonLootModifier;
 import com.keletu.aether_additions.AetherAdditions;
-import com.keletu.aether_additions.item.AetherCrossbowItems;
+import com.keletu.aether_additions.item.AAPItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.util.random.WeightedEntry;
@@ -27,7 +27,7 @@ public class AALootModifierData extends GlobalLootModifierProvider {
                 new LootItemCondition[]{
                         LootTableIdCondition.builder(AetherLoot.GOLD_DUNGEON_REWARD.location()).build()
                 },
-                List.of(WeightedEntry.wrap(new ItemStack(AetherCrossbowItems.VAMPIRE_CROSSBOW.get()), 12)),
+                List.of(WeightedEntry.wrap(new ItemStack(AAPItems.VAMPIRE_CROSSBOW.get()), 12)),
                 UniformInt.of(1, 1))
         );
     }

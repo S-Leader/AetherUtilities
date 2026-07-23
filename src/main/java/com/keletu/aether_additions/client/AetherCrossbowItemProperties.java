@@ -1,8 +1,8 @@
 package com.keletu.aether_additions.client;
 
 import com.keletu.aether_additions.AetherAdditions;
+import com.keletu.aether_additions.item.AAPItems;
 import com.keletu.aether_additions.item.AetherCrossbowItem;
-import com.keletu.aether_additions.item.AetherCrossbowItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -16,11 +16,11 @@ public final class AetherCrossbowItemProperties {
     }
 
     public static void register() {
-        register(AetherCrossbowItems.SKYROOT_CROSSBOW.get());
-        register(AetherCrossbowItems.HOLYSTONE_CROSSBOW.get());
-        register(AetherCrossbowItems.ZANITE_CROSSBOW.get());
-        register(AetherCrossbowItems.GRAVITITE_CROSSBOW.get());
-        register(AetherCrossbowItems.VAMPIRE_CROSSBOW.get());
+        register(AAPItems.SKYROOT_CROSSBOW.get());
+        register(AAPItems.HOLYSTONE_CROSSBOW.get());
+        register(AAPItems.ZANITE_CROSSBOW.get());
+        register(AAPItems.GRAVITITE_CROSSBOW.get());
+        register(AAPItems.VAMPIRE_CROSSBOW.get());
     }
 
     private static void register(AetherCrossbowItem item) {
