@@ -24,8 +24,8 @@ public final class AAPItems {
     public static final DeferredItem<AetherCrossbowItem> VAMPIRE_CROSSBOW = ITEMS.register("vampire_crossbow",
             () -> new AetherCrossbowItem(new Item.Properties().rarity(AetherItems.AETHER_LOOT), AetherCrossbowItem.CrossbowType.VAMPIRE));
 
-    public static final DeferredItem<MagicBeanItem> MAGIC_BEAN = ITEMS.register("magic_bean",
-            () -> new MagicBeanItem(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<MoaFluteItem> MOA_FLUTE = ITEMS.register("moa_flute",
+            () -> new MoaFluteItem(new Item.Properties().stacksTo(1)));
 
     private AAPItems() {
     }

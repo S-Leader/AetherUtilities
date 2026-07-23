@@ -1,4 +1,27 @@
 {
-  "item.aether_additions.magic_bean": "魔豆",
-  "block.aether_additions.bean_vine": "豆藤"
+  "item.aether_additions.skyroot_crossbow": "天根木弩",
+  "item.aether_additions.holystone_crossbow": "圣石重弩",
+  "item.aether_additions.zanite_crossbow": "紫晶连弩",
+  "item.aether_additions.gravitite_crossbow": "重力晶弩",
+  "item.aether_additions.vampire_crossbow": "吸血鬼弩",
+  "item.aether_additions.skyroot_crossbow.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Double Shot",
+  "item.aether_additions.holystone_crossbow.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Spread Shot",
+  "item.aether_additions.zanite_crossbow.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Grows Stronger",
+  "item.aether_additions.gravitite_crossbow.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Straight Shot",
+  "item.aether_additions.vampire_crossbow.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Lifesteal",
+  "lore.item.aether_additions.skyroot_crossbow": "A lightweight Skyroot crossbow that fires an additional arrow with every shot.",
+  "lore.item.aether_additions.holystone_crossbow": "A sturdy Holystone crossbow that fires three arrows in a spread pattern.",
+  "lore.item.aether_additions.zanite_crossbow": "A Zanite crossbow that deals more damage as its durability decreases.",
+  "lore.item.aether_additions.gravitite_crossbow": "A Gravitite crossbow that fires arrows unaffected by gravity.",
+  "lore.item.aether_additions.vampire_crossbow": "A cursed crossbow that restores a small amount of health to the shooter when its arrows hit a target.",
+
+  "item.aether_additions.moa_flute": "恐鸟笛",
+  "tooltip.aether_additions.moa_flute.empty": "空",
+  "tooltip.aether_additions.moa_flute.contains": "已收入：%s",
+  "tooltip.aether_additions.moa_flute.type": "品种：%s",
+  "message.aether_additions.moa_flute.full": "恐鸟笛中已经装有一只恐鸟",
+  "message.aether_additions.moa_flute.not_tamed": "只能收入玩家驯养的恐鸟",
+  "message.aether_additions.moa_flute.not_owner": "这只恐鸟不属于你",
+  "message.aether_additions.moa_flute.has_passenger": "请先让恐鸟和乘客分离",
+  "message.aether_additions.moa_flute.blocked": "这里没有足够空间释放恐鸟"
 }

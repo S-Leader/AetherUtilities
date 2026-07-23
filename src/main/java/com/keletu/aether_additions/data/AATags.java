@@ -29,7 +29,7 @@ public class AATags extends ItemTagsProvider {
         this.tag(ItemTags.VANISHING_ENCHANTABLE).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
         this.tag(Tags.Items.ENCHANTABLES).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get());
 
-        this.tag(AetherTags.Items.TREATED_AS_AETHER_ITEM).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get()).add(AAPItems.MAGIC_BEAN.get());
+        this.tag(AetherTags.Items.TREATED_AS_AETHER_ITEM).add(AAPItems.SKYROOT_CROSSBOW.get()).add(AAPItems.HOLYSTONE_CROSSBOW.get()).add(AAPItems.ZANITE_CROSSBOW.get()).add(AAPItems.GRAVITITE_CROSSBOW.get()).add(AAPItems.VAMPIRE_CROSSBOW.get()).add(AAPItems.MOA_FLUTE.get());
         this.tag(AetherTags.Items.GOLD_DUNGEON_LOOT).add(AAPItems.VAMPIRE_CROSSBOW.get());
     }
 }

@@ -1,8 +1,8 @@
 package com.keletu.aether_additions;
 
-import com.keletu.aether_additions.block.AetherPlantBlocks;
 import com.keletu.aether_additions.data.AACreativeTabs;
 import com.keletu.aether_additions.data.AADataGen;
+import com.keletu.aether_additions.item.AAPDataComponents;
 import com.keletu.aether_additions.item.AAPItems;
 import com.mojang.logging.LogUtils;
 import net.neoforged.api.distmarker.Dist;
@@ -19,7 +19,7 @@ public class AetherAdditions {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public AetherAdditions(IEventBus modEventBus, ModContainer container) {
-        AetherPlantBlocks.BLOCKS.register(modEventBus);
+        AAPDataComponents.COMPONENTS.register(modEventBus);
         AAPItems.ITEMS.register(modEventBus);
 
         modEventBus.addListener(EventPriority.LOW, AACreativeTabs::buildCreativeModeTabs);
