@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "aether_additions:aether_additions"
+        "recipe": "aether_additions:moa_flute"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "aether_additions:aether_additions"
+      "aether_additions:moa_flute"
     ]
   }
 }

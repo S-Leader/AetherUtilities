@@ -1,6 +1,5 @@
 package com.keletu.aether_additions.data;
 
-import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.data.providers.AetherRecipeProvider;
 import com.aetherteam.aether.item.AetherItems;
@@ -39,13 +38,12 @@ public class AARecipeProvider extends AetherRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, AAPItems.MOA_FLUTE.get())
                 .pattern("  W")
                 .pattern(" W ")
-                .pattern("N A")
-                .define('W', AetherBlocks.STRIPPED_SKYROOT_WOOD.get())
+                .pattern("N  ")
+                .define('W', AetherBlocks.STRIPPED_SKYROOT_LOG.get())
                 .define('N', AetherBlocks.CARVED_STONE)
-                .define('A', AetherTags.Items.GEMS_AMBROSIUM)
                 .group("moa_flute")
                 .unlockedBy("has_moa_egg", has(AetherBlocks.INCUBATOR.asItem()))
-                .save(output, ResourceLocation.fromNamespaceAndPath(AetherAdditions.MODID, id));
+                .save(output, ResourceLocation.fromNamespaceAndPath(AetherAdditions.MODID, "moa_flute"));
     }
 
     private static void crossbow(RecipeOutput output, ItemLike result, ItemLike material, String id) {

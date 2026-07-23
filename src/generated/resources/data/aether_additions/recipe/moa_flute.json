@@ -3,20 +3,17 @@
   "category": "equipment",
   "group": "moa_flute",
   "key": {
-    "A": {
-      "tag": "aether:gems/ambrosium"
-    },
     "N": {
       "item": "aether:carved_stone"
     },
     "W": {
-      "item": "aether:stripped_skyroot_wood"
+      "item": "aether:stripped_skyroot_log"
     }
   },
   "pattern": [
     "  W",
     " W ",
-    "N A"
+    "N  "
   ],
   "result": {
     "count": 1,
