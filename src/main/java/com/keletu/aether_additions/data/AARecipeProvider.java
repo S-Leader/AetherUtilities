@@ -1,5 +1,6 @@
 package com.keletu.aether_additions.data;
 
+import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.data.providers.AetherRecipeProvider;
 import com.aetherteam.aether.item.AetherItems;
@@ -35,6 +36,16 @@ public class AARecipeProvider extends AetherRecipeProvider {
         this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.ZANITE_CROSSBOW.get(), 750).group("altar_corssbow_repair").save(output, this.name("zanite_corssbow_repairing"));
         this.repairingRecipe(RecipeCategory.COMBAT, AAPItems.GRAVITITE_CROSSBOW.get(), 1500).group("altar_corssbow_repair").save(output, this.name("gravitite_corssbow_repairing"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, AAPItems.MOA_FLUTE.get())
+                .pattern("  W")
+                .pattern(" W ")
+                .pattern("N A")
+                .define('W', AetherBlocks.STRIPPED_SKYROOT_WOOD.get())
+                .define('N', AetherBlocks.CARVED_STONE)
+                .define('A', AetherTags.Items.GEMS_AMBROSIUM)
+                .group("moa_flute")
+                .unlockedBy("has_moa_egg", has(AetherBlocks.INCUBATOR.asItem()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(AetherAdditions.MODID, id));
     }
 
     private static void crossbow(RecipeOutput output, ItemLike result, ItemLike material, String id) {

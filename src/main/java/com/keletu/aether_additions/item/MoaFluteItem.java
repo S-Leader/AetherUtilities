@@ -3,17 +3,22 @@ package com.keletu.aether_additions.item;
 import com.aetherteam.aether.api.registers.MoaType;
 import com.aetherteam.aether.entity.AetherEntityTypes;
 import com.aetherteam.aether.entity.passive.Moa;
+import com.keletu.aether_additions.client.MoaFluteWindAnimation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +39,12 @@ public class MoaFluteItem extends Item {
     private static final String MOA_TYPE = "MoaType";
     private static final String STORED_BY = "StoredBy";
     private static final String FLUTE_OWNER = "aether_additions:MoaFluteOwner";
+    private static final String CAPTURE_LOCK_UNTIL = "CaptureLockUntil";
+    private static final String CAPTURE_ENTITY_UUID = "CaptureEntityUUID";
+    private static final String CAPTURE_DIMENSION = "CaptureDimension";
+
+    private static final int CAPTURE_LOCK_BUFFER = 4;
+    private static final int CAPTURE_LOCK_TICKS = 36;
 
     public MoaFluteItem(Properties properties) {
         super(properties.stacksTo(1));
@@ -42,6 +54,10 @@ public class MoaFluteItem extends Item {
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, @NotNull Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         if (!(target instanceof Moa moa)) {
             return InteractionResult.PASS;
+        }
+        if (MoaFluteWindAnimation.isAnimating(moa)) {
+            showMessage(player, "message.aether_additions.moa_flute.busy");
+            return InteractionResult.FAIL;
         }
 
         if (hasStoredMoa(stack)) {
@@ -83,15 +99,22 @@ public class MoaFluteItem extends Item {
             storedData.putString(MOA_TYPE, moaType.location().toString());
         }
 
-        // Do not mutate only the interaction stack in place. Creative mode keeps a
-        // client-side hotbar copy which can overwrite an in-place server mutation.
+        storedData.putUUID(CAPTURE_ENTITY_UUID, moa.getUUID());
+
+        storedData.putString(CAPTURE_DIMENSION, level.dimension().location().toString());
+
+        storedData.putLong(CAPTURE_LOCK_UNTIL, getServerGameTime(level) + MoaFluteWindAnimation.ANIMATION_LENGTH + CAPTURE_LOCK_BUFFER);
+
+        if (!MoaFluteWindAnimation.startCapture(moa)) {
+            return InteractionResult.FAIL;
+        }
+
         ItemStack filledFlute = stack.copy();
         filledFlute.set(AAPDataComponents.MOA.get(), storedData.copy());
         replaceHeldStackAndSync(player, hand, filledFlute);
-
         level.playSound(null, moa.blockPosition(), SoundEvents.NOTE_BLOCK_FLUTE.value(), SoundSource.NEUTRAL, 1.0F, 0.8F);
+
         player.swing(hand, true);
-        moa.discard();
         return InteractionResult.SUCCESS;
     }
 
@@ -103,17 +126,34 @@ public class MoaFluteItem extends Item {
 
         ItemStack stack = context.getItemInHand();
         CompoundTag storedData = getStoredMoa(stack);
+
         if (storedData == null) {
             return InteractionResult.PASS;
         }
 
         Level level = context.getLevel();
+        Player player = context.getPlayer();
+
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
 
+        /*
+         * 恐鸟还在收入旋风中时，不允许释放。
+         * 这里不使用 ItemCooldowns。
+         */
+        if (isCaptureLocked(level, storedData)) {
+            if (player != null) {
+                showMessage(player, "message.aether_additions.moa_flute.busy");
+            }
+
+            return InteractionResult.FAIL;
+        }
+
         CompoundTag entityTag = storedData.getCompound(ENTITY_TAG).copy();
+
         Moa moa = AetherEntityTypes.MOA.get().create(level);
+
         if (moa == null) {
             return InteractionResult.FAIL;
         }
@@ -123,35 +163,60 @@ public class MoaFluteItem extends Item {
         double x = context.getClickedPos().getX() + 0.5D;
         double y = context.getClickedPos().getY() + 1.0D;
         double z = context.getClickedPos().getZ() + 0.5D;
+
         float yaw = 180.0F + context.getHorizontalDirection().toYRot();
+
+        Vec3 releasePosition = new Vec3(x, y, z);
+
+        /*
+         * 先在最终落地点检查碰撞。
+         */
         moa.moveTo(x, y, z, yaw, 0.0F);
 
-        // Do not delete the stored Moa when the target space is obstructed.
         if (!level.noCollision(moa)) {
-            Player player = context.getPlayer();
             if (player != null) {
                 showMessage(player, "message.aether_additions.moa_flute.blocked");
             }
+
+            return InteractionResult.FAIL;
+        }
+
+        /*
+         * 必须在 addFreshEntity 之前启动释放动画。
+         *
+         * startRelease 会：
+         * 1. 写入动画状态；
+         * 2. 关闭重力、AI和碰撞；
+         * 3. 将恐鸟移动到落点上方。
+         *
+         * 因此客户端收到生成包时，恐鸟已经位于空中，
+         * 不会再从地面突然升上去。
+         */
+        if (!MoaFluteWindAnimation.startRelease(moa, releasePosition)) {
             return InteractionResult.FAIL;
         }
 
         if (!level.addFreshEntity(moa)) {
+            MoaFluteWindAnimation.cancelAnimation(moa);
             return InteractionResult.FAIL;
         }
 
-        Player player = context.getPlayer();
+        /*
+         * 只有恐鸟成功加入世界并启动动画后才能清空笛子。
+         */
         if (player != null) {
             ItemStack emptyFlute = stack.copy();
             emptyFlute.remove(AAPDataComponents.MOA.get());
+
             replaceHeldStackAndSync(player, context.getHand(), emptyFlute);
+
+            player.swing(context.getHand(), true);
         } else {
             stack.remove(AAPDataComponents.MOA.get());
         }
 
         level.playSound(null, moa.blockPosition(), SoundEvents.NOTE_BLOCK_FLUTE.value(), SoundSource.NEUTRAL, 1.0F, 1.2F);
-        if (player != null) {
-            player.swing(context.getHand(), true);
-        }
+
         return InteractionResult.SUCCESS;
     }
 
@@ -236,6 +301,44 @@ public class MoaFluteItem extends Item {
     @Override
     public boolean isFoil(@NotNull ItemStack stack) {
         return hasStoredMoa(stack) || super.isFoil(stack);
+    }
+
+    private static boolean isCaptureLocked(Level currentLevel, CompoundTag storedData) {
+        long currentTime = getServerGameTime(currentLevel);
+
+        if (currentTime < storedData.getLong(CAPTURE_LOCK_UNTIL)) {
+            return true;
+        }
+
+        if (!storedData.hasUUID(CAPTURE_ENTITY_UUID)) {
+            return false;
+        }
+
+        String dimensionName = storedData.getString(CAPTURE_DIMENSION);
+
+        ResourceLocation dimensionId = ResourceLocation.tryParse(dimensionName);
+
+        if (dimensionId == null || currentLevel.getServer() == null) {
+            return false;
+        }
+
+        ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, dimensionId);
+        ServerLevel sourceLevel = currentLevel.getServer().getLevel(dimensionKey);
+        if (sourceLevel == null) {
+            return false;
+        }
+
+        Entity sourceEntity = sourceLevel.getEntity(storedData.getUUID(CAPTURE_ENTITY_UUID));
+
+        return sourceEntity instanceof Moa sourceMoa && MoaFluteWindAnimation.isAnimating(sourceMoa);
+    }
+
+    private static long getServerGameTime(Level level) {
+        if (level.getServer() != null) {
+            return level.getServer().overworld().getGameTime();
+        }
+
+        return level.getGameTime();
     }
 
     @Override

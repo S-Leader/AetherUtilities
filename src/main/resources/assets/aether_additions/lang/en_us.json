@@ -14,11 +14,9 @@
   "lore.item.aether_additions.zanite_crossbow": "A Zanite crossbow that deals more damage as its durability decreases.",
   "lore.item.aether_additions.gravitite_crossbow": "A Gravitite crossbow that fires arrows unaffected by gravity.",
   "lore.item.aether_additions.vampire_crossbow": "A cursed crossbow that restores a small amount of health to the shooter when its arrows hit a target.",
-
   "item.aether_additions.moa_flute": "Moa Flute",
   "item.aether_additions.moa_flute.nitrogen_internals.ability.tooltip.1": "§9Ability:§r Store Your Moa",
   "lore.item.aether_additions.moa_flute": "A flute can store a tamed moa in it, right click a moa to use.",
-
   "item.aether_additions.moa_flute.nitrogen_internals.ability.tooltip.2": "§3Use:§r Right-Click Your Moa",
   "tooltip.aether_additions.moa_flute.empty": "Empty",
   "tooltip.aether_additions.moa_flute.contains": "Contains: %s",
@@ -27,5 +25,7 @@
   "message.aether_additions.moa_flute.not_tamed": "Only a player-raised Moa can be stored",
   "message.aether_additions.moa_flute.not_owner": "This Moa does not belong to you",
   "message.aether_additions.moa_flute.has_passenger": "Separate the Moa from its passenger first",
-  "message.aether_additions.moa_flute.blocked": "There is not enough room to release the Moa here"
+  "message.aether_additions.moa_flute.blocked": "There is not enough room to release the Moa here",
+  "message.aether_additions.moa_flute.busy": "This Moa is already being carried by the wind",
+  "message.aether_additions.moa_flute.cannot_mount_in_wind": "This Moa cannot be mounted while carried by the wind"
 }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "moa_flute",
+  "key": {
+    "A": {
+      "tag": "aether:gems/ambrosium"
+    },
+    "N": {
+      "item": "aether:carved_stone"
+    },
+    "W": {
+      "item": "aether:stripped_skyroot_wood"
+    }
+  },
+  "pattern": [
+    "  W",
+    " W ",
+    "N A"
+  ],
+  "result": {
+    "count": 1,
+    "id": "aether_additions:moa_flute"
+  }
+}
