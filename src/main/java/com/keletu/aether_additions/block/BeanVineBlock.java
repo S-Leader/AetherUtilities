@@ -47,7 +47,7 @@ public class BeanVineBlock extends Block {
     public static final BooleanProperty CONNECTION_EAST = BooleanProperty.create("connection_east");
 
     private static final int BREAK_DELAY = 2;
-    public static final int GROWTH_DELAY = 5;
+    public static final int GROWTH_DELAY = 2;
     public static final int MAX_GROWTH_INDEX = 9;
 
     // 8 x 8 visual/selection body, matching the width of a vanilla wall post.
